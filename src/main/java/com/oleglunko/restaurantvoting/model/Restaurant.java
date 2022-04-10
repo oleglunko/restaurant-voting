@@ -15,7 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -34,6 +36,14 @@ public class Restaurant extends NamedEntity {
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
+
+    @NotNull
+    @Column(name = "opened_at", nullable = false)
+    private LocalTime openedAt;
+
+    @NotNull
+    @Column(name = "closed_at")
+    private LocalTime closedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id", nullable = false)
