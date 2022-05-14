@@ -52,7 +52,7 @@ public class VoteController {
     }
 
     @GetMapping
-    public Vote getCurrentByUser(@AuthenticationPrincipal AuthUser authUser) {
+    public Vote getCurrentForUser(@AuthenticationPrincipal AuthUser authUser) {
         long userId = authUser.id();
         log.info("get current vote by user {}", userId);
         return voteRepository.findCurrentByUserId(userId, LocalDate.now());

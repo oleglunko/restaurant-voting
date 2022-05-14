@@ -51,7 +51,7 @@ public class AdminDishController {
         var created = dishService.save(dish, userId, restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
-                .buildAndExpand(created.getId()).toUri();
+                .buildAndExpand(restaurantId, created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
@@ -75,7 +75,7 @@ public class AdminDishController {
     }
 
     @GetMapping
-    public List<Dish> getAllByRestaurantId(@AuthenticationPrincipal AuthUser authUser, @PathVariable long restaurantId) {
+    public List<Dish> getAllByRestaurant(@AuthenticationPrincipal AuthUser authUser, @PathVariable long restaurantId) {
         log.info("get all by restaurant {} by user {}", restaurantId, authUser.id());
         return dishRepository.findAllByRestaurantIdOrderByName(restaurantId);
     }

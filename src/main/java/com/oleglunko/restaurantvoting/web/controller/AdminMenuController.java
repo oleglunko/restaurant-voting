@@ -1,6 +1,5 @@
 package com.oleglunko.restaurantvoting.web.controller;
 
-import com.oleglunko.restaurantvoting.dto.CreationMenuDto;
 import com.oleglunko.restaurantvoting.model.Menu;
 import com.oleglunko.restaurantvoting.repository.MenuRepository;
 import com.oleglunko.restaurantvoting.service.MenuService;
@@ -45,29 +44,29 @@ public class AdminMenuController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Menu> create(@AuthenticationPrincipal AuthUser authUser,
-                                       @Valid @RequestBody CreationMenuDto creationMenuDto,
+                                       @Valid @RequestBody Menu menu,
                                        @PathVariable long restaurantId) {
         long userId = authUser.id();
-        log.info("create {} by user {}", creationMenuDto, userId);
-        checkNew(creationMenuDto);
-        menuRepository.checkUnique(restaurantId, creationMenuDto.getDate());
-        var created = menuService.save(creationMenuDto, userId, restaurantId);
+        log.info("create {} by user {}", menu, userId);
+        checkNew(menu);
+        menuRepository.checkUnique(restaurantId, menu.getDate());
+        var created = menuService.save(menu, userId, restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
-                .buildAndExpand(created.getId()).toUri();
+                .path(REST_URL + "/{menuId}")
+                .buildAndExpand(restaurantId, created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @PutMapping(value = "/{menuId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@AuthenticationPrincipal AuthUser authUser,
-                       @Valid @RequestBody CreationMenuDto creationMenuDto,
+                       @Valid @RequestBody Menu menu,
                        @PathVariable long restaurantId,
                        @PathVariable long menuId) {
         var userId = authUser.id();
-        log.info("update {} by user {}", creationMenuDto, userId);
-        assureIdConsistent(creationMenuDto, menuId);
-        menuService.save(creationMenuDto, userId, restaurantId);
+        log.info("update {} by user {}", menu, userId);
+        assureIdConsistent(menu, menuId);
+        menuService.save(menu, userId, restaurantId);
     }
 
     @DeleteMapping("/{menuId}")

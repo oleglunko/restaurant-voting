@@ -1,7 +1,8 @@
 package com.oleglunko.restaurantvoting.util;
 
 import com.oleglunko.restaurantvoting.HasId;
-import com.oleglunko.restaurantvoting.util.exception.NotFoundException;
+import com.oleglunko.restaurantvoting.error.LateVotingException;
+import com.oleglunko.restaurantvoting.error.NotFoundException;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalTime;
@@ -35,7 +36,7 @@ public class ValidationUtil {
 
     public static void checkIsLate() {
         if (LocalTime.now().isAfter(CHECK_TIME)) {
-//            throw new TimeException("This is too late for voting");
+            throw new LateVotingException("Too late to vote!");
         }
     }
 }

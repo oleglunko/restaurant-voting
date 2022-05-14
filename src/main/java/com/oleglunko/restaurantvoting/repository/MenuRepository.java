@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,6 +17,7 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
     @Query("SELECT m FROM Menu m JOIN FETCH m.dishes WHERE m.date = :now AND m.restaurant.id = :restaurantId")
     Optional<Menu> findCurrentByRestaurantId(Long restaurantId, LocalDate now);
 
+    @Transactional
     @Modifying
     @Query("DELETE FROM Menu m WHERE m.id = :menuId")
     void delete(long menuId);
@@ -32,6 +34,4 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
             throw new RuntimeException("Restaurant has a menu for this date!");
         }
     }
-
-    ;
 }

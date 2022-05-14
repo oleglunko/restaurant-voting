@@ -1,33 +1,33 @@
-#  https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 spring:
   datasource:
-    # ImMemory
     url: jdbc:h2:mem:restaurant-voting
     username: sa
     password: password
     driverClassName: org.h2.Driver
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:/db/init.sql
+      data-locations: classpath:/db/populate.sql
   jpa:
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
     show-sql: true
     open-in-view: false
-    # https://stackoverflow.com/a/67678945/548473
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
-      #  http://docs.jboss.org/hibernate/orm/5.3/userguide/html_single/Hibernate_User_Guide.html#configurations
       hibernate:
         format_sql: true
         default_batch_fetch_size: 20
-        # https://stackoverflow.com/questions/21257819/what-is-the-difference-between-hibernate-jdbc-fetch-size-and-hibernate-jdbc-batc
         jdbc.batch_size: 20
 
-#  # Jackson Serialization Issue Resolver
-#  jackson.visibility:
-#    field: any
-#    getter: none
-#    setter: none
-#    is-getter: none
+  # Jackson Serialization Issue Resolver
+  jackson.visibility:
+    field: any
+    getter: none
+    setter: none
+    is-getter: none
 #
 #  # https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html#common-application-properties-cache
 #  cache:
@@ -42,6 +42,6 @@ logging:
 
 server.servlet:
   encoding:
-    charset: UTF-8 # Charset of HTTP requests and responses. Added to the "Content-Type" header if not set explicitly
-    enabled: true # Enable http encoding support
+    charset: UTF-8
+    enabled: true
     force: true
