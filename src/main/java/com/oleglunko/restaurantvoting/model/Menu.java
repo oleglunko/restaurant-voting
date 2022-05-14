@@ -1,21 +1,21 @@
 package com.oleglunko.restaurantvoting.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -23,23 +23,32 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true, exclude = {"menuDishes"})
+@ToString(callSuper = true)
 @Table(name = "menu")
 public class Menu extends BaseEntity {
 
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creator_id", nullable = false)
+    @JsonIgnore
+    private User creator;
 
     @NotNull
     @Column(name = "date", nullable = false)
     private LocalDate date;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "menu")
-    private List<MenuDish> menuDishes;
+    @ManyToMany
+    @ToString.Exclude
+    private List<Dish> dishes;
+
+    public Menu(Long id, LocalDate date, Restaurant restaurant, List<Dish> dishes) {
+        super(id);
+        this.date = date;
+        this.restaurant = restaurant;
+        this.dishes = dishes;
+    }
 }

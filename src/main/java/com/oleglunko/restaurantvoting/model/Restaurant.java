@@ -1,41 +1,34 @@
 package com.oleglunko.restaurantvoting.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true, exclude = {"creator", "menus", "dishes"})
+@ToString(callSuper = true)
 @Table(name = "restaurant")
 public class Restaurant extends NamedEntity {
 
     @NotBlank
     @Column(name = "address")
     private String address;
-
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
 
     @NotNull
     @Column(name = "opened_at", nullable = false)
@@ -45,15 +38,11 @@ public class Restaurant extends NamedEntity {
     @Column(name = "closed_at")
     private LocalTime closedAt;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id", nullable = false)
+    @JsonIgnore
     private User creator;
-
-    @OneToMany(mappedBy = "restaurant")
-    private List<Menu> menus;
-
-    @OneToMany(mappedBy = "restaurant")
-    private List<Dish> dishes;
 
     public Restaurant(Long id, String name, String address) {
         super(id, name);
