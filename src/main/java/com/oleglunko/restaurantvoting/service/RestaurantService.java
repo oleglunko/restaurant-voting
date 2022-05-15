@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class RestaurantService {
+
     private final RestaurantRepository restaurantRepository;
     private final UserRepository userRepository;
 

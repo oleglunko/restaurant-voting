@@ -1,6 +1,7 @@
 package com.oleglunko.restaurantvoting.repository;
 
 import com.oleglunko.restaurantvoting.model.Menu;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,6 +25,7 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
 
     List<Menu> findAllByRestaurantIdOrderByDateDesc(long restaurantId);
 
+    @Cacheable("menus")
     @Query("SELECT m FROM Menu m JOIN FETCH m.dishes WHERE m.id = :menuId")
     Optional<Menu> findByIdWithDishes(long menuId);
 

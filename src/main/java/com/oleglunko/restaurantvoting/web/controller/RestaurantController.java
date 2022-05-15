@@ -5,6 +5,7 @@ import com.oleglunko.restaurantvoting.repository.RestaurantRepository;
 import com.oleglunko.restaurantvoting.web.AuthUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,6 +26,7 @@ public class RestaurantController {
 
     private final RestaurantRepository restaurantRepository;
 
+    @Cacheable("restaurants")
     @GetMapping("/{id}")
     public ResponseEntity<Restaurant> get(@AuthenticationPrincipal AuthUser authUser, @PathVariable long id) {
         log.info("get restaurant {} by user {}", id, authUser.id());
