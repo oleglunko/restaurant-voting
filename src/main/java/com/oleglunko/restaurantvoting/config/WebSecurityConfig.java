@@ -1,8 +1,10 @@
 package com.oleglunko.restaurantvoting.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oleglunko.restaurantvoting.model.Role;
 import com.oleglunko.restaurantvoting.model.User;
 import com.oleglunko.restaurantvoting.repository.UserRepository;
+import com.oleglunko.restaurantvoting.util.JsonUtil;
 import com.oleglunko.restaurantvoting.web.AuthUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,11 @@ import java.util.Optional;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserRepository userRepository;
+
+    @Autowired
+    private void setMapper(ObjectMapper objectMapper) {
+        JsonUtil.setMapper(objectMapper);
+    }
 
     @Bean
     @Override

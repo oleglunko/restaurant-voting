@@ -53,3 +53,6 @@ VALUES (1, 1),
        (2, 8),
        (3, 9),
        (3, 10);
+
+INSERT INTO vote (created_date, creator_id, restaurant_id)
+VALUES (now(), 1, 1);

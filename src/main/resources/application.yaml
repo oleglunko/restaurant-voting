@@ -33,7 +33,7 @@ spring:
 
 logging:
   level:
-    root: WARN
+    root: warn
     com.oleglunko.restaurantvoting: DEBUG
 
 server.servlet:

@@ -18,7 +18,7 @@ public class VoteService {
     private final RestaurantRepository restaurantRepository;
 
     public Vote create(long restaurantId, long userId) {
-        var restaurant = checkNotFoundWithId(restaurantRepository.getById(restaurantId), restaurantId);
+        var restaurant = checkNotFoundWithId(restaurantRepository.findById(restaurantId).orElse(null), restaurantId);
         var creator = userRepository.getById(userId);
         return voteRepository.save(new Vote(creator, restaurant));
     }

@@ -34,10 +34,9 @@ public class Vote extends BaseEntity {
         this.restaurant = restaurant;
     }
 
-    public Vote(Long id, LocalDate createdDate, User creator, Restaurant restaurant) {
+    public Vote(Long id, LocalDate createdDate, Restaurant restaurant) {
         super(id);
         this.createdDate = createdDate;
-        this.creator = creator;
         this.restaurant = restaurant;
     }
 }

@@ -29,7 +29,6 @@ public class Menu extends BaseEntity {
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creator_id", nullable = false)
     @JsonIgnore
     private User creator;
 
@@ -38,7 +37,6 @@ public class Menu extends BaseEntity {
     private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id", nullable = false)
     @JsonBackReference
     @ToString.Exclude
     private Restaurant restaurant;

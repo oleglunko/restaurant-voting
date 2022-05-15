@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -24,7 +23,6 @@ import java.time.LocalTime;
 public class Restaurant extends NamedEntity {
 
     @NotBlank
-    @Column(name = "address")
     private String address;
 
     @NotNull
@@ -38,8 +36,10 @@ public class Restaurant extends NamedEntity {
     @JsonIgnore
     private User creator;
 
-    public Restaurant(Long id, String name, String address) {
+    public Restaurant(Long id, String name, String address, LocalTime openedAt, LocalTime closedAt) {
         super(id, name);
         this.address = address;
+        this.openedAt = openedAt;
+        this.closedAt = closedAt;
     }
 }

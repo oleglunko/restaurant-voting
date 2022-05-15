@@ -42,7 +42,6 @@ public class VoteController {
     public ResponseEntity<Vote> create(@AuthenticationPrincipal AuthUser authUser, @RequestBody long restaurantId) {
         long userId = authUser.id();
         log.info("create vote for restaurant {} by user {}", restaurantId, userId);
-        checkIsLate();
         voteRepository.checkExists(userId, LocalDate.now());
         var created = voteService.create(restaurantId, userId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
